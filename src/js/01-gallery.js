@@ -1,10 +1,9 @@
 // Add imports above this line
-import SimpleLightbox from "simplelightbox";
-console.log(SimpleLightbox);
-
 import { galleryItems } from './gallery-items';
-// Change code below this line
 
+import SimpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
+// Change code below this line
 
 const refs = {
     gallery: document.querySelector('.gallery'),
@@ -22,58 +21,22 @@ const galleryTemplate = ( {preview, original, description} ) =>
         />
         </a>
     </div>`;
+
+    const render = () => {
+        const galleryList = galleryItems.map((galleryItem) => galleryTemplate(galleryItem)).join('');
     
-let instance = {};
+        refs.gallery.insertAdjacentHTML('beforeend', galleryList);
+    };
     
-const render = () => {
-    const galleryList = galleryItems.map((galleryItem) => galleryTemplate(galleryItem)).join('');
-
-    refs.gallery.insertAdjacentHTML('beforeend', galleryList);
-};
-
-render();
-
-
-refs.gallery.addEventListener('click', onGalaryItemClick);
-
-function onGalaryItemClick (evt) {
-    evt.preventDefault();
+    render();
     
-    const isGalleryImage = evt.target.classList.contains('gallery__image');
-    const currentGalleryItemIsActive = document.querySelector('.gallery__item.modal');
-    const galleryImageEl = evt.target; 
-    const parentGalleryImage = galleryImageEl.closest('.gallery__item');
+    var lightbox = new SimpleLightbox('.gallery a', { 
+        captionsData: 'alt',
+        captionDelay: 250,
+    });
 
-    if (!isGalleryImage) {
-        return;
-    }
 
-    if (currentGalleryItemIsActive) {
-        currentGalleryItemIsActive.classList.remove('basicLightbox--img')
-    }
 
-    parentGalleryImage.classList.add('basicLightbox--img');
-    
-    instance = basicLightbox.create(
-        `
-        <img src="${evt.target.dataset.source}" width="800" height="600">
-        `
-    );
-
-    instance.show();
-
-};
-
-refs.gallery.addEventListener('keydown', onCloseModalKeydown)
-
-function onCloseModalKeydown(evt) {
-    evt.preventDefault();
-    if (evt.code === "Escape") {
-        instance.close()
-
-    }
-    console.log(evt);
-};
-
+console.log(galleryItems);
 
 console.log(galleryItems);
