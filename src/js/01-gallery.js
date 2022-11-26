@@ -40,3 +40,6 @@ const galleryTemplate = ( {preview, original, description} ) =>
 console.log(galleryItems);
 
 console.log(galleryItems);
+
+
+console.log("object");
